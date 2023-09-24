@@ -9,6 +9,9 @@ dotenv.config();
 //config app
 const app = express();
 
+//enable read forms from body - client
+app.use(express.json());
+
 //connect to db
 db();
 
