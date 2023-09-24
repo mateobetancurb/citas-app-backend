@@ -1,12 +1,14 @@
 import express from "express";
 import {
 	createService,
-	getServices,
+	getAllServices,
+	getServiceById,
 } from "../controllers/servicesController.js";
 
 const router = express.Router();
 
 router.post("/", createService);
-router.get("/", getServices);
+router.get("/", getAllServices);
+router.get("/:id", getServiceById);
 
 export default router;
