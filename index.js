@@ -1,12 +1,19 @@
 import express from "express";
+import dotenv from "dotenv";
+import { db } from "./config/db.js";
+import servicesRoutes from "./routes/servicesRoutes.js";
+
+//config .env variables
+dotenv.config();
 
 //config app
 const app = express();
 
+//connect to db
+db();
+
 //define rute
-app.get("/", (req, res) => {
-	res.json({ message: "Hello World" });
-});
+app.use("/api/services", servicesRoutes);
 
 //define port
 const PORT = process.env.PORT || 4000;
