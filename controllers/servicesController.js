@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { services } from "../data/services.js";
 import Services from "../models/Services.js";
-import { validateObjectId } from "../helpers/index.js";
+import { validateObjectId, handleNotFoundError } from "../helpers/index.js";
 
 const createService = async (req, res) => {
 	if (Object.values(req.body).includes("")) {
@@ -32,8 +32,7 @@ const getServiceById = async (req, res) => {
 	//validar que el servicio existe
 	const service = await Services.findById(id);
 	if (!service) {
-		const error = new Error("El servicio no existe");
-		return res.status(404).json({ msg: error.message });
+		return handleNotFoundError("El servicio no existe", res);
 	}
 
 	//mostrar el servicio
@@ -49,8 +48,7 @@ const updateService = async (req, res) => {
 	//validar que el servicio existe
 	const service = await Services.findById(id);
 	if (!service) {
-		const error = new Error("El servicio no existe");
-		return res.status(404).json({ msg: error.message });
+		return handleNotFoundError("El servicio no existe", res);
 	}
 
 	//editar el servicio
