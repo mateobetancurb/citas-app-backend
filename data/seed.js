@@ -10,7 +10,7 @@ await db();
 async function seedDB() {
 	try {
 		await Services.insertMany(services);
-		console.log("se agregaron los datos");
+		console.log("data was added to db");
 		process.exit(0);
 	} catch (error) {
 		console.log(error);
@@ -18,8 +18,15 @@ async function seedDB() {
 	}
 }
 
-function clearDB() {
-	console.log("desde clear");
+async function clearDB() {
+	try {
+		await Services.deleteMany();
+		console.log("all data was deleted from db");
+		process.exit(0);
+	} catch (error) {
+		console.log(error);
+		process.exit(1);
+	}
 }
 
 if (process.argv[2] === "--import") {
