@@ -43,4 +43,32 @@ const getServiceById = async (req, res) => {
 	res.json(service);
 };
 
-export { createService, getAllServices, getServiceById };
+const updateService = async (req, res) => {
+	const { id } = req.params;
+
+	//validar un object id
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		const error = new Error("El id no es válido");
+		return res.status(400).json({ msg: error.message });
+	}
+
+	//validar que el servicio existe
+	const service = await Services.findById(id);
+	if (!service) {
+		const error = new Error("El servicio no existe");
+		return res.status(404).json({ msg: error.message });
+	}
+
+	//editar el servicio
+	service.name = req.body.name || service.name;
+	service.price = req.body.price || service.price;
+
+	try {
+		await service.save();
+		res.json({ msg: "El servicio fue editado correctamente" });
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export { createService, getAllServices, getServiceById, updateService };
