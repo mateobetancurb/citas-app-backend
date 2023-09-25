@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { services } from "../data/services.js";
 import Services from "../models/Services.js";
 import { validateObjectId, handleNotFoundError } from "../helpers/index.js";
@@ -63,4 +62,30 @@ const updateService = async (req, res) => {
 	}
 };
 
-export { createService, getAllServices, getServiceById, updateService };
+const deleteService = async (req, res) => {
+	const { id } = req.params;
+
+	//validar object id
+	if (validateObjectId(id, res)) return;
+
+	//validar que el servicio existe
+	const service = await Services.findById(id);
+	if (!service) {
+		return handleNotFoundError("El servicio no existe", res);
+	}
+
+	try {
+		await service.deleteOne();
+		res.json({ msg: "Servicio eliminado" });
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export {
+	createService,
+	getAllServices,
+	getServiceById,
+	updateService,
+	deleteService,
+};
