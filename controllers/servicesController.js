@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { services } from "../data/services.js";
 import Services from "../models/Services.js";
+import { validateObjectId } from "../helpers/index.js";
 
 const createService = async (req, res) => {
 	if (Object.values(req.body).includes("")) {
@@ -25,12 +26,8 @@ const getAllServices = (req, res) => {
 
 const getServiceById = async (req, res) => {
 	const { id } = req.params;
-	//validar un object id
-
-	if (!mongoose.Types.ObjectId.isValid(id)) {
-		const error = new Error("El id no es válido");
-		return res.status(400).json({ msg: error.message });
-	}
+	//validar object id
+	if (validateObjectId(id, res)) return;
 
 	//validar que el servicio existe
 	const service = await Services.findById(id);
@@ -46,11 +43,8 @@ const getServiceById = async (req, res) => {
 const updateService = async (req, res) => {
 	const { id } = req.params;
 
-	//validar un object id
-	if (!mongoose.Types.ObjectId.isValid(id)) {
-		const error = new Error("El id no es válido");
-		return res.status(400).json({ msg: error.message });
-	}
+	//validar object id
+	if (validateObjectId(id, res)) return;
 
 	//validar que el servicio existe
 	const service = await Services.findById(id);
