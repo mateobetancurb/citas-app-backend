@@ -1,4 +1,3 @@
-import { services } from "../data/services.js";
 import Services from "../models/Services.js";
 import { validateObjectId, handleNotFoundError } from "../helpers/index.js";
 
@@ -19,8 +18,13 @@ const createService = async (req, res) => {
 	}
 };
 
-const getAllServices = (req, res) => {
-	res.json(services);
+const getAllServices = async (req, res) => {
+	try {
+		const allServices = await Services.find();
+		res.json(allServices);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const getServiceById = async (req, res) => {
