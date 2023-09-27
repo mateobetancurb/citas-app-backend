@@ -16,7 +16,6 @@ app.use(express.json());
 //connect to db
 db();
 
-
 //cors config
 const whiteList = [process.env.FRONTEND_URL, undefined]
 
