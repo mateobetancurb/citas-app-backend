@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"
 import { db } from "./config/db.js";
 import servicesRoutes from "./routes/servicesRoutes.js";
 
@@ -14,6 +15,23 @@ app.use(express.json());
 
 //connect to db
 db();
+
+
+//cors config
+const whiteList = [process.env.FRONTEND_URL, undefined]
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin)) {
+      //allow connection
+      callback(null, true)
+    } else {
+      //dont allow connection
+      callback(new Error("CORS ERROR"))
+    }
+  }
+}
+app.use(cors(corsOptions))
 
 //define rute
 app.use("/api/services", servicesRoutes);
