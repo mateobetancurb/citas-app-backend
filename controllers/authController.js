@@ -21,6 +21,16 @@ const userRegister = async (req, res) => {
 		});
 	}
 
+	//validar longitud contraseña
+	const MIN_PASSWORD_LENGTH = 8;
+	if (password.trim().length < MIN_PASSWORD_LENGTH) {
+		const error = new Error("La contraseña debe tener más de 7 caracteres");
+
+		return res.status(400).json({
+			msg: error.message,
+		});
+	}
+
 	try {
 		const user = new User(req.body);
 		await user.save();
