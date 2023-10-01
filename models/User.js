@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { generateId } from "../helpers";
+import { generateId } from "../helpers/index.js";
 
 const userSchema = mongoose.Schema({
 	name: {
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
 	},
 	token: {
 		type: String,
-		default: () => generateId,
+		default: () => generateId(),
 	},
 	verified: {
 		type: Boolean,
