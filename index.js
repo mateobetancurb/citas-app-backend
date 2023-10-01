@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 import { db } from "./config/db.js";
 import servicesRoutes from "./routes/servicesRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 //config .env variables
 dotenv.config();
@@ -17,23 +18,24 @@ app.use(express.json());
 db();
 
 //cors config
-const whiteList = [process.env.FRONTEND_URL, undefined]
+const whiteList = [process.env.FRONTEND_URL, undefined];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whiteList.includes(origin)) {
-      //allow connection
-      callback(null, true)
-    } else {
-      //dont allow connection
-      callback(new Error("CORS ERROR"))
-    }
-  }
-}
-app.use(cors(corsOptions))
+	origin: function (origin, callback) {
+		if (whiteList.includes(origin)) {
+			//allow connection
+			callback(null, true);
+		} else {
+			//dont allow connection
+			callback(new Error("CORS ERROR"));
+		}
+	},
+};
+app.use(cors(corsOptions));
 
 //define rute
 app.use("/api/services", servicesRoutes);
+app.use("/api/auth", authRoutes);
 
 //define port
 const PORT = process.env.PORT || 4000;
