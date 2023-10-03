@@ -76,4 +76,41 @@ const verifyUserAccount = async (req, res) => {
 	}
 };
 
-export { userRegister, verifyUserAccount };
+const userLogin = async (req, res) => {
+	const { email, password } = req.body;
+
+	//validar si el usuario existe
+	const user = await User.findOne({ email });
+
+	if (!user) {
+		const error = new Error("Datos de acceso inválidos");
+
+		return res.status(401).json({
+			msg: error.message,
+		});
+	}
+
+	//validar si verificó el correo
+	if (!user.verified) {
+		const error = new Error(
+			"Para poder ingresar debes confirmar tu correo electrónico"
+		);
+
+		return res.status(401).json({
+			msg: error.message,
+		});
+	}
+
+	//validar contraseña
+	if (await user.checkPassword(password)) {
+		res.json({ msg: "Usuario autenticado" });
+	} else {
+		const error = new Error("Datos de acceso inválidos");
+
+		return res.status(401).json({
+			msg: error.message,
+		});
+	}
+};
+
+export { userRegister, verifyUserAccount, userLogin };
