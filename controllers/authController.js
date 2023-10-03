@@ -52,4 +52,19 @@ const userRegister = async (req, res) => {
 	}
 };
 
-export { userRegister };
+const verifyUserAccount = async (req, res) => {
+	const { token } = req.params;
+
+	const user = await User.findOne({ token });
+	console.log(user);
+
+	if (!user) {
+		const error = new Error("Error: el token no es válido");
+
+		return res.status(401).json({
+			msg: error.message,
+		});
+	}
+};
+
+export { userRegister, verifyUserAccount };
