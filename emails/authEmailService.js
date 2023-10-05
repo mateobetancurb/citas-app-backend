@@ -10,14 +10,14 @@ export async function sendEmailVerification({ name, email, token }) {
 
 	//enviar email
 	const info = await transporter.sendMail({
-		from: "Citas App",
+		from: "Citas App <clientes@appsalon.com>",
 		to: email,
 		subject: "Confirma tu cuenta",
 		text: "Confirma tu cuenta",
 		html: `
       <p>Hola ${name}, confirma tu cuenta en CitasApp</p>
       <p>Tu cuenta está casi lista, sólo debes confirmarla en el siguiente link</p>
-      <a href="http://localhost:4000/api/auth/verify/${token}">Confirmar cuenta</a>
+      <a href="${process.env.FRONTEND_URL}/api/auth/verify/${token}">Confirmar cuenta</a>
       <p>Si tú no creaste esta cuenta puedes ignorar este mensaje</p>
     `,
 	});
