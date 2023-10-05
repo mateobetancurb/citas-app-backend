@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import JWT from "jsonwebtoken";
 
 function validateObjectId(id, res) {
 	//validar un object id
@@ -17,4 +18,11 @@ function generateId() {
 	return Date.now().toString(32) + Math.random().toString(32).substring(2);
 }
 
-export { validateObjectId, handleNotFoundError, generateId };
+function generateJWT(id) {
+	const token = JWT.sign({ id }, process.env.JWT_SECRET, {
+		expiresIn: "7d",
+	});
+	return token;
+}
+
+export { validateObjectId, handleNotFoundError, generateId, generateJWT };
