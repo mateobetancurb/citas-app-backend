@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { sendEmailVerification } from "../emails/authEmailService.js";
+import { generateJWT } from "../helpers/index.js";
 
 const userRegister = async (req, res) => {
 	//validar todos los campos
@@ -103,7 +104,8 @@ const userLogin = async (req, res) => {
 
 	//validar contraseña
 	if (await user.checkPassword(password)) {
-		res.json({ msg: "¡Qué gusto verte de nuevo!" });
+		const token = generateJWT(user._id);
+		return res.json({ token });
 	} else {
 		const error = new Error("Error: datos de acceso inválidos");
 
