@@ -23,7 +23,7 @@ const userRegister = async (req, res) => {
 	}
 
 	//validar longitud contraseña
-	const MIN_PASSWORD_LENGTH = 8;
+	const MIN_PASSWORD_LENGTH = 1;
 	if (password.trim().length < MIN_PASSWORD_LENGTH) {
 		const error = new Error("La contraseña debe tener más de 7 caracteres");
 
@@ -83,7 +83,7 @@ const userLogin = async (req, res) => {
 	const user = await User.findOne({ email });
 
 	if (!user) {
-		const error = new Error("Datos de acceso inválidos");
+		const error = new Error("Error: datos de acceso inválidos");
 
 		return res.status(401).json({
 			msg: error.message,
@@ -103,9 +103,9 @@ const userLogin = async (req, res) => {
 
 	//validar contraseña
 	if (await user.checkPassword(password)) {
-		res.json({ msg: "Usuario autenticado" });
+		res.json({ msg: "¡Qué gusto verte de nuevo!" });
 	} else {
-		const error = new Error("Datos de acceso inválidos");
+		const error = new Error("Error: datos de acceso inválidos");
 
 		return res.status(401).json({
 			msg: error.message,
