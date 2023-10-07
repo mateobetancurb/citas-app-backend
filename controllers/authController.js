@@ -115,4 +115,9 @@ const userLogin = async (req, res) => {
 	}
 };
 
-export { userRegister, verifyUserAccount, userLogin };
+const user = async (req, res) => {
+	const { user } = req;
+	res.json({ user });
+};
+
+export { userRegister, verifyUserAccount, userLogin, user };
