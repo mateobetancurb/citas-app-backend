@@ -1,0 +1,27 @@
+import JWT from "jsonwebtoken";
+import User from "../models/User.js";
+
+const authMiddleware = async (req, res, next) => {
+	if (
+		req.headers.authorization &&
+		req.headers.authorization.startsWith("Bearer")
+	) {
+		try {
+			const token = req.headers.authorization.split(" ")[1];
+			const decoded = JWT.verify(token, process.env.JWT_SECRET);
+			req.user = await User.findById(decoded.id).select(
+				"-password -verified -token -__v"
+			);
+			next();
+		} catch (err) {
+			const error = new Error("Token no válido");
+			res.status(403).json({ msg: error.message });
+			console.log(err);
+		}
+	} else {
+		const error = new Error("Token no válido");
+		res.status(403).json({ msg: error.message });
+	}
+};
+
+export default authMiddleware;
