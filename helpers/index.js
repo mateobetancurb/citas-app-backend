@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import JWT from "jsonwebtoken";
+import { format } from "date-fns";
+import es from "date-fns/locale/es/index.js";
 
 function validateObjectId(id, res) {
 	//validar un object id
@@ -25,4 +27,19 @@ function generateJWT(id) {
 	return token;
 }
 
-export { validateObjectId, handleNotFoundError, generateId, generateJWT };
+function formatDate(date) {
+	return format(date, "PPPP", { locale: es });
+}
+
+function formatTime(time) {
+	return format(new Date(`1970-01-01T${time}`), "h:mm a", { locale: es });
+}
+
+export {
+	validateObjectId,
+	handleNotFoundError,
+	generateId,
+	generateJWT,
+	formatDate,
+	formatTime,
+};
