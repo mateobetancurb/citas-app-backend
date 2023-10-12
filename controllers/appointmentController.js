@@ -6,7 +6,11 @@ import {
 	formatDate,
 	formatTime,
 } from "../helpers/index.js";
-import { sendEmailNewAppointment } from "../emails/appointmentEmailService.js";
+import {
+	sendEmailNewAppointment,
+	sendEmailUpdateAppointment,
+	sendEmailDeleteAppointment,
+} from "../emails/appointmentEmailService.js";
 
 const createAppointment = async (req, res) => {
 	const appointment = req.body;
@@ -104,6 +108,10 @@ const updateAppointment = async (req, res) => {
 	try {
 		const result = await appointment.save();
 		res.json({ msg: "Cita editada correctamente" });
+		await sendEmailUpdateAppointment({
+			date: formatDate(result.date),
+			time: formatTime(result.time),
+		});
 	} catch (error) {
 		console.log(error);
 	}
@@ -129,8 +137,12 @@ const deleteAppointment = async (req, res) => {
 	}
 
 	try {
-		await appointment.deleteOne();
+		const result = await appointment.deleteOne();
 		res.json({ msg: "La cita fue cancelada" });
+		sendEmailDeleteAppointment({
+			date: formatDate(result.date),
+			time: formatTime(result.time),
+		});
 	} catch (error) {
 		console.log(error);
 	}
