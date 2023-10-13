@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import { sendEmailVerification } from "../emails/authEmailService.js";
-import { generateJWT } from "../helpers/index.js";
+import { generateJWT, generateId } from "../helpers/index.js";
 
 const userRegister = async (req, res) => {
 	//validar todos los campos
@@ -115,9 +115,33 @@ const userLogin = async (req, res) => {
 	}
 };
 
+const forgotPassword = async (req, res) => {
+	const { email } = req.body;
+
+	const user = await User.findOne({ email });
+
+	if (!user) {
+		const error = new Error("Error: correo inválido");
+		return res.status(404).json({
+			msg: error.message,
+		});
+	}
+
+	try {
+		user.token = generateId();
+		await user.save();
+
+		res.json({
+			msg: "Hemos enviado un correo electrónico con las instrucciones",
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const user = async (req, res) => {
 	const { user } = req;
 	res.json({ user });
 };
 
-export { userRegister, verifyUserAccount, userLogin, user };
+export { userRegister, verifyUserAccount, userLogin, forgotPassword, user };
