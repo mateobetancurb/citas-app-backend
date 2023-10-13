@@ -132,7 +132,7 @@ const forgotPassword = async (req, res) => {
 		await user.save();
 
 		res.json({
-			msg: "Hemos enviado un correo electrónico con las instrucciones",
+			msg: "Te acabamos de enviar un correo electrónico con las instrucciones",
 		});
 	} catch (error) {
 		console.log(error);
