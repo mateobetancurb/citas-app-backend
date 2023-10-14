@@ -147,9 +147,53 @@ const forgotPassword = async (req, res) => {
 	}
 };
 
+const verifyPasswordResetToken = async (req, res) => {
+	const { token } = req.params;
+
+	const isValidToken = await User.findOne({ token });
+	if (!isValidToken) {
+		const error = new Error("Error: token inválido");
+		return res.status(400).json({
+			msg: error.message,
+		});
+	}
+	res.json({ token });
+};
+
+const updatePassword = async (req, res) => {
+	const { token } = req.params;
+
+	const user = await User.findOne({ token });
+	if (!user) {
+		const error = new Error("Error: token inválido");
+		return res.status(400).json({
+			msg: error.message,
+		});
+	}
+	const { password } = req.body;
+	try {
+		user.token = "";
+		user.password = password;
+		await user.save();
+		res.json({
+			msg: "La contraseña se cambió exitosamente. Ya puedes iniciar sesión",
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const user = async (req, res) => {
 	const { user } = req;
 	res.json({ user });
 };
 
-export { userRegister, verifyUserAccount, userLogin, forgotPassword, user };
+export {
+	userRegister,
+	verifyUserAccount,
+	userLogin,
+	forgotPassword,
+	verifyPasswordResetToken,
+	updatePassword,
+	user,
+};
