@@ -10,10 +10,10 @@ export async function sendEmailNewAppointment({ date, time }) {
 
 	//enviar email
 	const info = await transporter.sendMail({
-		from: "Citas App <citas@appsalon.com>",
-		to: "admin@appsalon.com",
-		subject: "Citas App - Nueva cita agendada",
-		text: "Citas App - Nueva cita",
+		from: "Barbería Susa <citas@barberiasusa.com>",
+		to: "admin@barberiasusa.com",
+		subject: "Barbería Susa - Nueva cita agendada",
+		text: "Barbería Susa - Nueva cita",
 		html: `
       <p>Hola admin, tienes una nueva cita</p>
       <p>La cita será el ${date} a las ${time}</p>
@@ -33,10 +33,10 @@ export async function sendEmailUpdateAppointment({ date, time }) {
 
 	//enviar email
 	const info = await transporter.sendMail({
-		from: "Citas App <citas@appsalon.com>",
-		to: "admin@appsalon.com",
-		subject: "Citas App - Cita modificada",
-		text: "Citas App - Cita modificada",
+		from: "Barbería Susa <citas@barberiasusa.com>",
+		to: "admin@barberiasusa.com",
+		subject: "Barbería Susa - Cita modificada",
+		text: "Barbería Susa - Cita modificada",
 		html: `
       <p>Hola admin, una de tus próximas citas ha sido modificada por el usuario</p>
       <p>La nueva cita será el ${date} a las ${time}</p>
@@ -57,10 +57,10 @@ export async function sendEmailDeleteAppointment({ date, time }) {
 
 	//enviar email
 	const info = await transporter.sendMail({
-		from: "Citas App <citas@appsalon.com>",
-		to: "admin@appsalon.com",
-		subject: "Citas App - Cita cancelada",
-		text: "Citas App - Cita cancelada",
+		from: "Barbería Susa <citas@barberiasusa.com>",
+		to: "admin@barberiasusa.com",
+		subject: "Barbería Susa - Cita cancelada",
+		text: "Barbería Susa - Cita cancelada",
 		html: `
       <p>Hola admin, una de tus próximas citas ha sido cancelada por el usuario</p>
       <p>La cita estaba programada para el ${date} a las ${time}</p>
