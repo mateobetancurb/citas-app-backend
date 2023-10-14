@@ -1,5 +1,8 @@
 import User from "../models/User.js";
-import { sendEmailVerification } from "../emails/authEmailService.js";
+import {
+	sendEmailVerification,
+	sendEmailPasswordReset,
+} from "../emails/authEmailService.js";
 import { generateJWT, generateId } from "../helpers/index.js";
 
 const userRegister = async (req, res) => {
@@ -129,7 +132,12 @@ const forgotPassword = async (req, res) => {
 
 	try {
 		user.token = generateId();
-		await user.save();
+		const result = await user.save();
+		await sendEmailPasswordReset({
+			name: result.name,
+			email: result.email,
+			token: result.token,
+		});
 
 		res.json({
 			msg: "Te acabamos de enviar un correo electrónico con las instrucciones",
