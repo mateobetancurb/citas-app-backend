@@ -17,7 +17,7 @@ export async function sendEmailVerification({ name, email, token }) {
 		html: `
       <p>Hola ${name}, confirma tu cuenta en Barbería Susa</p>
       <p>Tu cuenta está casi lista, sólo debes confirmarla en el siguiente link</p>
-      <a href="${process.env.FRONTEND_URL}/api/auth/verify/${token}">Confirmar cuenta</a>
+      <a href="${process.env.FRONTEND_URL}/auth/verify/${token}">Confirmar cuenta</a>
       <p>Si tú no creaste esta cuenta puedes ignorar este mensaje</p>
     `,
 	});
@@ -41,7 +41,7 @@ export async function sendEmailPasswordReset({ name, email, token }) {
 		text: "Barbería Susa - Restablece tu contraseña",
 		html: `
       <p>Hola ${name}, dale clic al siguiente link para restablecer tu contraseña</p>
-      <a href="${process.env.FRONTEND_URL}/api/auth/olvide-contrasena/${token}">Cambiar contraseña</a>
+      <a href="${process.env.FRONTEND_URL}/auth/olvide-contrasena/${token}">Cambiar contraseña</a>
       <p>Si tú no solicitaste cambiar la contraseña puedes ignorar este mensaje</p>
     `,
 	});
