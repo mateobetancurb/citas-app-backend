@@ -7,6 +7,7 @@ import {
 	forgotPassword,
 	verifyPasswordResetToken,
 	updatePassword,
+	isAdmin,
 } from "../controllers/authController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -21,5 +22,6 @@ router.post("/forgot-password/:token", updatePassword);
 
 // rutas protegidas
 router.get("/user", authMiddleware, user);
+router.get("/admin", authMiddleware, isAdmin);
 
 export default router;
