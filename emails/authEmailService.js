@@ -17,7 +17,7 @@ export async function sendEmailVerification({ name, email, token }) {
 		html: `
       <p>Hola ${name}, confirma tu cuenta en Barbería Susa</p>
       <p>Tu cuenta está casi lista, sólo debes confirmarla en el siguiente link</p>
-      <a href="${process.env.FRONTEND_URL}/auth/verify/${token}">Confirmar cuenta</a>
+      <a href="${process.env.FRONTEND_URL}/auth/confirmar-cuenta/${token}">Confirmar cuenta</a>
       <p>Si tú no creaste esta cuenta puedes ignorar este mensaje</p>
     `,
 	});
